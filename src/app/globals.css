@@ -1,0 +1,119 @@
+@import "tailwindcss";
+
+/*
+  Design tokens — "Engineering Ledger"
+  Rationale: the whole body of work is built around one idea — evidence
+  over invention, verified claims over generated confidence. The visual
+  system borrows from lab notebooks / systems logs rather than generic
+  "AI portfolio" gradients: dark ink page, monospace status tags, a warm
+  signal-amber accent for active work, sage for verified, rose for blocked.
+*/
+
+:root {
+  --ink: #0e1420;
+  --ink-raised: #141b2a;
+  --ink-line: #232c3d;
+  --paper: #f3efe6;
+  --paper-dim: #b9c0cf;
+  --signal-amber: #f2a93b;
+  --verified-sage: #8fae6b;
+  --blocked-rose: #c96a5f;
+  --link-teal: #6fb8b0;
+
+  --font-display: var(--font-space-grotesk);
+  --font-body: var(--font-inter);
+  --font-mono: var(--font-ibm-plex-mono);
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-ink-raised: var(--ink-raised);
+  --color-ink-line: var(--ink-line);
+  --color-paper: var(--paper);
+  --color-paper-dim: var(--paper-dim);
+  --color-signal-amber: var(--signal-amber);
+  --color-verified-sage: var(--verified-sage);
+  --color-blocked-rose: var(--blocked-rose);
+  --color-link-teal: var(--link-teal);
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+}
+
+::selection {
+  background: var(--signal-amber);
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--signal-amber);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.tag {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.18rem 0.5rem;
+  border-radius: 2px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: 1px solid transparent;
+}
+
+.tag-verified {
+  color: var(--verified-sage);
+  border-color: color-mix(in srgb, var(--verified-sage) 40%, transparent);
+  background: color-mix(in srgb, var(--verified-sage) 10%, transparent);
+}
+
+.tag-progress {
+  color: var(--signal-amber);
+  border-color: color-mix(in srgb, var(--signal-amber) 40%, transparent);
+  background: color-mix(in srgb, var(--signal-amber) 10%, transparent);
+}
+
+.tag-planned {
+  color: var(--paper-dim);
+  border-color: color-mix(in srgb, var(--paper-dim) 30%, transparent);
+  background: color-mix(in srgb, var(--paper-dim) 6%, transparent);
+}
+
+.tag-blocked {
+  color: var(--blocked-rose);
+  border-color: color-mix(in srgb, var(--blocked-rose) 40%, transparent);
+  background: color-mix(in srgb, var(--blocked-rose) 10%, transparent);
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
