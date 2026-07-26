@@ -2,42 +2,53 @@ import Link from "next/link";
 import { projects } from "@/lib/projects";
 import StatusTag from "@/components/StatusTag";
 
-export const metadata = { title: "Now — Meet Tala" };
+export const metadata = {
+  title: "Project status — Meet Tala",
+  description:
+    "Repository readiness and public-demo availability for Meet Tala's applied AI and data science portfolio.",
+};
 
 export default function NowPage() {
   return (
     <div className="mx-auto max-w-3xl px-6 py-16">
       <div className="font-mono text-xs uppercase tracking-widest text-signal-amber">
-        live status
+        verified portfolio status
       </div>
       <h1 className="mt-4 font-display text-3xl font-bold text-paper">
-        What&apos;s happening right now
+        Five repositories ready for review
       </h1>
-      <p className="mt-4 text-paper-dim leading-relaxed">
-        This page mirrors the build log I keep while working through this
-        program. Updated as each project moves.
+      <p className="mt-4 max-w-2xl leading-relaxed text-paper-dim">
+        Repository-ready means the project has passed its documented engineering,
+        testing, security and presentation checks. It does not automatically mean a
+        public live demo is deployed.
       </p>
 
       <div className="mt-10 divide-y divide-ink-line border-y border-ink-line">
-        {projects.map((p) => (
+        {projects.map((project) => (
           <Link
-            key={p.slug}
-            href={`/projects/${p.slug}`}
-            className="flex items-center justify-between gap-4 py-4 hover:bg-ink-raised px-2 -mx-2 transition-colors"
+            key={project.slug}
+            href={`/projects/${project.slug}`}
+            className="-mx-2 flex items-center justify-between gap-4 rounded-sm px-2 py-5 transition-colors hover:bg-ink-raised focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-amber focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
           >
             <div>
               <div className="font-display text-sm font-bold text-paper">
-                {p.title}
+                {project.title}
               </div>
-              <div className="text-xs text-paper-dim">{p.stack.join(" · ")}</div>
+              <div className="mt-1 text-xs text-paper-dim">
+                {project.stack.join(" · ")}
+              </div>
+              <div className="mt-2 font-mono text-[0.65rem] uppercase tracking-wide text-paper-dim/80">
+                Public demo: {project.liveDemoAvailable ? "verified" : "not claimed"}
+              </div>
             </div>
-            <StatusTag status={p.status} />
+            <StatusTag status={project.status} />
           </Link>
         ))}
       </div>
 
-      <p className="mt-8 font-mono text-xs text-paper-dim">
-        Last updated manually — see repo commit history for exact dates.
+      <p className="mt-8 text-sm leading-relaxed text-paper-dim">
+        Each case study links to its public GitHub repository. Commit history and CI
+        runs provide the most precise evidence of completion.
       </p>
     </div>
   );
