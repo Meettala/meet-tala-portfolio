@@ -1,20 +1,29 @@
 export type ProjectStatus = "verified" | "progress" | "planned";
 
+export type ProjectLink = {
+  label: string;
+  href: string;
+  external?: boolean;
+};
+
 export type Project = {
   slug: string;
   order: number;
   title: string;
   oneLiner: string;
   status: ProjectStatus;
+  repositoryReady: boolean;
+  liveDemoAvailable: boolean;
   stack: string[];
   problem: string;
   approach: string[];
   safetyNotes: string[];
-  links?: { label: string; href: string }[];
+  limitations: string[];
+  links: ProjectLink[];
 };
 
 export const statusLabel: Record<ProjectStatus, string> = {
-  verified: "Shipped",
+  verified: "Repository ready",
   progress: "In progress",
   planned: "Planned",
 };
@@ -25,156 +34,198 @@ export const statusClass: Record<ProjectStatus, string> = {
   planned: "tag-planned",
 };
 
-// Single source of truth for build status. Update this file as each
-// project moves from planned -> progress -> verified; the whole site
-// (home grid, /now, individual case-study pages) reads from here.
 export const projects: Project[] = [
   {
     slug: "job-market-skill-analyzer",
     order: 1,
     title: "AI Job Market Skill Analyzer",
     oneLiner:
-      "Pulls AI/ML job postings apart to show which skills actually matter right now, not which ones are assumed to.",
+      "A reproducible Python and Streamlit pipeline for extracting, ranking and comparing AI/ML skills from permitted job-posting data.",
     status: "verified",
-    stack: ["Python", "Pandas", "SQL", "Streamlit"],
+    repositoryReady: true,
+    liveDemoAvailable: false,
+    stack: ["Python", "pandas", "SQLite", "Streamlit", "pytest"],
     problem:
-      "Job seekers guess which skills to prioritize from outdated advice. This tool answers it with data: what current AI/ML postings actually ask for, and how often.",
+      "Career advice often relies on anecdote. This project demonstrates a transparent way to measure skill frequency, co-occurrence and candidate gaps from a clearly defined dataset.",
     approach: [
-      "Load a set of AI/ML job postings (synthetic demo data — no scraping; see safety notes).",
-      "Extract required skills with a zero-dependency rule-based taxonomy matcher, with an optional LLM-assisted pass layered on top once an API key is configured.",
-      "Store postings and extracted skills in SQLite; aggregate frequency and co-occurrence with pandas/SQL.",
-      "Produce a gap report comparing the market to a given candidate skill list.",
-      "Ship two front ends: a Streamlit app for interactive local use, and a static results view on this site for a public demo link.",
+      "Load synthetic or explicitly permitted job postings; the public repository does not scrape restricted platforms.",
+      "Use deterministic taxonomy matching as the no-key default, with an optional strictly validated provider-assisted extraction path.",
+      "Store posting and skill records in SQLite, then calculate frequency, co-occurrence and candidate-gap reports with pandas.",
+      "Expose the analysis through a Streamlit dashboard and exportable report files.",
+      "Verify repeat runs, malformed inputs, provider failures and report calculations through Python 3.10–3.12 CI.",
     ],
     safetyNotes: [
-      "No scraping of any platform — runs on clearly-labeled synthetic sample postings until a permitted real data source is wired up.",
-      "Source URL and retrieval date stored with every posting for provenance.",
-      "Optional LLM extraction treats posting text as untrusted input and is instructed never to follow embedded instructions.",
-      "Works fully with zero API key configured (rule-based extraction is the default).",
+      "Public examples use synthetic or explicitly permitted data.",
+      "Provider output is treated as untrusted and validated before use.",
+      "The deterministic extractor remains a first-class no-key mode.",
+      "Reports describe the analysed sample rather than claiming complete market coverage.",
     ],
-    links: [{ label: "Live analysis results", href: "/demo/job-market-analyzer" }],
+    limitations: [
+      "Taxonomy matching cannot cover every new role title, synonym or specialist skill.",
+      "Results depend on the representativeness and freshness of the supplied dataset.",
+      "The repository is ready for local use; no public live deployment is currently claimed.",
+    ],
+    links: [
+      {
+        label: "View GitHub repository",
+        href: "https://github.com/Meettala/ai-job-market-skill-analyzer",
+        external: true,
+      },
+    ],
   },
   {
     slug: "ml-prediction-app",
     order: 2,
     title: "ML Prediction App",
     oneLiner:
-      "A clean, end-to-end ML pipeline — data to trained model to a working demo anyone can try, not just a notebook.",
+      "An end-to-end machine-learning application with reproducible training, honest evaluation, validated inference and a deployable interface.",
     status: "verified",
-    stack: ["Python", "scikit-learn", "FastAPI", "Streamlit"],
+    repositoryReady: true,
+    liveDemoAvailable: false,
+    stack: ["Python", "scikit-learn", "FastAPI", "Streamlit", "pytest"],
     problem:
-      "Notebooks show you can train a model. They don't show you can ship one. This project proves the full path: clean data, evaluated model, deployed demo.",
+      "A notebook alone does not demonstrate production-minded ML engineering. This project covers data preparation, model comparison, artefact validation, API inference and user-facing delivery.",
     approach: [
-      "California Housing dataset (public, aggregate 1990 census data — no scraping, no personal data).",
-      "Clean and split the data; train a Linear Regression baseline and a Random Forest, and report both honestly (RMSE, MAE, R²) rather than only the best number.",
-      "Serve the Random Forest behind a FastAPI endpoint with input validation, fully tested.",
-      "Ship a Streamlit demo using the real trained model, plus a genuinely live client-side demo on this site using the interpretable linear model's coefficients — clearly labeled as the simplified version, with the Random Forest's accuracy shown alongside for honesty.",
+      "Prepare a public aggregate housing dataset with reproducible train/test handling.",
+      "Train and compare a transparent baseline with a stronger tree-based model using RMSE, MAE and R².",
+      "Persist model metadata and reject incompatible or malformed artefacts at load time.",
+      "Validate request ranges before prediction and return safe user-facing errors.",
+      "Run tests, Ruff and dependency auditing across Python 3.10–3.12 in CI.",
     ],
     safetyNotes: [
-      "Every prediction surface states this is illustrative only, not financial or investment advice.",
-      "Both models' evaluation metrics are always shown together, never just the best-looking one.",
-      "Public, aggregate, block-group-level census data only — no personal or identifiable data.",
-      "API input validation rejects out-of-range values rather than producing a nonsensical prediction.",
+      "Predictions are explicitly illustrative and are not financial, investment or housing advice.",
+      "Evaluation reports include the baseline and selected model instead of hiding weaker results.",
+      "The dataset is aggregate and does not contain personal applicant records.",
+      "Inference inputs are bounded and validated before reaching the model.",
     ],
-    links: [{ label: "Try the live predictor", href: "/demo/ml-prediction" }],
+    limitations: [
+      "Historical aggregate data cannot represent every present-day local housing condition.",
+      "Model quality is limited by the original feature set and sampling assumptions.",
+      "The repository is deployment-ready, but this portfolio does not claim a currently public demo URL.",
+    ],
+    links: [
+      {
+        label: "View GitHub repository",
+        href: "https://github.com/Meettala/ml-prediction-app",
+        external: true,
+      },
+    ],
   },
   {
     slug: "rag-research-assistant",
     order: 3,
     title: "RAG Research Assistant",
     oneLiner:
-      "Upload a document, ask it questions, get answers with citations — and an honest 'I don't know' when the document doesn't say.",
+      "A document question-answering assistant with explainable local retrieval, citations and an explicit refusal when evidence is insufficient.",
     status: "verified",
-    stack: ["Next.js", "TF-IDF", "Vector search", "LLM API"],
+    repositoryReady: true,
+    liveDemoAvailable: false,
+    stack: ["Next.js", "TypeScript", "TF-IDF", "Vitest", "Docker"],
     problem:
-      "Most demo chatbots confidently answer questions their source material never covers. This one is built to refuse instead of hallucinate.",
+      "Many document chat demos produce confident answers beyond their source material. This project prioritises grounded retrieval, visible evidence and safe fallback behaviour.",
     approach: [
-      "Paragraph-aware chunking with overlap, then TF-IDF vectorization and cosine-similarity retrieval — a real, explainable vector-search technique that needs zero API key.",
-      "Extractive answer mode by default: the answer is the retrieved passage itself, verbatim, with its citation — no generation, no hallucination risk.",
-      "Optional LLM-generative mode once a key is configured: retrieved chunks are passed to the model, which must cite its source and is explicitly told never to follow instructions found inside the (untrusted) document text.",
-      "Explicit 'not covered in this document' fallback below a confidence threshold, in both modes.",
+      "Chunk documents and build an explainable local TF-IDF retrieval index without requiring an API key.",
+      "Return cited extractive answers by default and refuse when retrieval confidence is too low.",
+      "Treat provider output, when enabled, as untrusted and restrict citations to retrieved chunks.",
+      "Validate request shapes, sizes and provider responses at every boundary.",
+      "Ship deterministic CI, OSV scanning and a non-root standalone Docker image.",
     ],
     safetyNotes: [
-      "Document text is always treated as untrusted input — delimited and never followed as instructions, enforced by construction in extractive mode and by prompt design in generative mode.",
-      "11 automated tests pass, including two dedicated prompt-injection tests.",
-      "Works fully with zero API key configured (extractive mode is the default).",
-      "Every answer states which chunk it's based on.",
+      "Document text is escaped and treated as untrusted data rather than instructions.",
+      "Every accepted answer must resolve to an allow-listed source chunk.",
+      "Low-confidence questions return a refusal rather than a fabricated answer.",
+      "Provider failures fall back safely to the local extractive path.",
     ],
-    links: [{ label: "Try the extractive mode, live", href: "/demo/rag-assistant" }],
+    limitations: [
+      "TF-IDF retrieval is lexical and may miss semantically related wording.",
+      "The assistant is not a substitute for reviewing the original document.",
+      "No public live deployment is claimed until a verified URL and genuine demo are added.",
+    ],
+    links: [
+      {
+        label: "View GitHub repository",
+        href: "https://github.com/Meettala/rag-research-assistant",
+        external: true,
+      },
+    ],
   },
   {
     slug: "jobpilot-ai",
     order: 4,
     title: "JobPilot AI",
     oneLiner:
-      "An evidence-grounded job application assistant: matches a CV to a job description, drafts truthful cover letters, and blocks any claim it can't prove.",
+      "An evidence-grounded job application assistant that matches a CV to a role, drafts truthful material and keeps automation behind explicit approval.",
     status: "verified",
-    stack: ["Next.js", "TypeScript", "Supabase", "LLM API"],
+    repositoryReady: true,
+    liveDemoAvailable: false,
+    stack: ["Next.js", "TypeScript", "Vitest", "Supabase design", "n8n design"],
     problem:
-      "Most 'AI resume tools' will happily invent experience to get a match. JobPilot AI is built around the opposite rule: every claim needs a receipt, or it gets blocked.",
+      "Application assistants can improve wording while quietly inventing experience or taking unwanted actions. JobPilot AI is designed around evidence traceability and human approval.",
     approach: [
-      "Parse CV into an evidence bank, each item tagged with its source sentence and a confidence label.",
-      "Match evidence against job requirements to produce matched / missing / weak-evidence lists and a match score.",
-      "Draft cover letters that can only ever assemble sentences that already exist in the evidence bank — the default path has no generative step at all, so it's structurally incapable of inventing a claim, not just instructed not to.",
-      "Unsupported requirements are always shown as a visible Blocked Claims list, never hidden or smoothed over.",
-      "Generate interview questions and evidence-grounded LinkedIn suggestions; export the full analysis as Markdown.",
+      "Convert CV statements into an evidence bank and match those items against extracted job requirements.",
+      "Assemble the default cover letter deterministically from real evidence text and list unsupported requirements separately.",
+      "Restrict optional providers to selecting bounded, allow-listed evidence identifiers rather than writing unrestricted claims.",
+      "Generate interview and LinkedIn suggestions while preserving the same evidence boundary.",
+      "Use a propose-only tracker: pending actions require explicit approval, replayed approvals are rejected and no sending capability exists.",
     ],
     safetyNotes: [
-      "Never invents experience, dates, companies, or certificates — enforced structurally, not just by prompt, and proven by automated tests.",
-      "All external actions (sending, applying, editing the live CV) require explicit human approval — this MVP has no send/apply functionality at all.",
-      "CVs and job descriptions are treated as untrusted input; 3 dedicated prompt-injection tests pass.",
-      "Supabase schema and Row Level Security policies are written and ready, scoping every table to the owning user.",
+      "Unsupported experience is reported rather than invented.",
+      "Provider-selected evidence must exist in the candidate evidence bank.",
+      "Tracker suggestions have no side effects until a user explicitly approves them.",
+      "Supabase and n8n files are documented design examples and are not presented as wired production services.",
     ],
-    links: [{ label: "Try the evidence engine, live", href: "/demo/jobpilot-ai" }],
+    limitations: [
+      "The public tracker uses in-memory state and resets when the server restarts.",
+      "Taxonomy-based matching may miss unusual wording or specialised requirements.",
+      "The tool does not auto-apply, message recruiters or guarantee interviews or employment.",
+    ],
+    links: [
+      {
+        label: "View GitHub repository",
+        href: "https://github.com/Meettala/jobpilot-ai",
+        external: true,
+      },
+    ],
   },
   {
     slug: "llm-business-insight-assistant",
     order: 5,
     title: "LLM Business Insight Assistant",
     oneLiner:
-      "Upload a CSV, ask a business question in plain English, get a chart and a written answer grounded in the actual numbers.",
+      "A CSV analysis assistant where every natural-language question resolves to a validated operation instead of generated code.",
     status: "verified",
-    stack: ["Python", "Pandas", "SQL", "LLM API"],
+    repositoryReady: true,
+    liveDemoAvailable: false,
+    stack: ["Python", "pandas", "Validated QuerySpec", "pytest"],
     problem:
-      "Business stakeholders don't want to write SQL. This turns a plain-English question into a grounded, chart-backed answer instead of a plausible-sounding guess — without ever letting an LLM run arbitrary code against uploaded data.",
+      "Allowing a model to generate and execute arbitrary Python or SQL against uploaded business data creates avoidable security and correctness risks.",
     approach: [
-      "CSV upload with automatic schema and type detection.",
-      "Every question — rule-based or LLM-parsed — resolves to a fixed, validated 'QuerySpec' naming a whitelisted operation (sum, mean, count, min, max, trend) and real columns, before anything touches the data.",
-      "Execution uses a fixed set of pandas calls only — no eval, no exec, no dynamically-built SQL anywhere in the pipeline.",
-      "Result rendered as chart + written explanation that states the exact numbers/columns it's based on, verified in tests against an independent pandas computation.",
+      "Inspect uploaded CSV columns and types without executing cell contents.",
+      "Resolve questions to a fixed QuerySpec containing a whitelisted aggregation or trend operation and real column names.",
+      "Validate the QuerySpec before executing a fixed pandas implementation—without eval, exec or dynamically generated SQL.",
+      "Return charts and explanations grounded in the computed result.",
+      "Test malformed requests, injection-style cell values and calculation correctness independently.",
     ],
     safetyNotes: [
-      "No code execution from user or LLM input, ever — the single most important design decision in this project.",
-      "A hostile CSV cell (SQL-injection-style text, formula injection) is treated as inert data, never as a command — proven with dedicated tests.",
-      "Works fully with zero API key configured (rule-based parsing is the default).",
-      "13 automated tests pass, including 3 dedicated injection-resistance tests.",
+      "No generated code path exists in the analysis pipeline.",
+      "CSV cells containing formula or SQL-like text remain inert data.",
+      "Operations and columns must pass a fixed whitelist before execution.",
+      "Narrative answers are tied to the validated numerical result.",
     ],
-    links: [{ label: "Ask the sample data, live", href: "/demo/business-insight" }],
-  },
-  {
-    slug: "agentic-job-tracker",
-    order: 6,
-    title: "Agentic Job Application Tracker",
-    oneLiner:
-      "Extends JobPilot AI: spots applications needing follow-up and proposes an action — but nothing ever sends or changes without explicit approval.",
-    status: "verified",
-    stack: ["Next.js", "Supabase", "n8n"],
-    problem:
-      "Automation for job hunting usually means auto-sending things you didn't review. This is the opposite: an agent that proposes, and a human who decides.",
-    approach: [
-      "Suggestion logic identifies jobs with a passed follow-up date or 21+ days of no status change — pure logic, no side effects.",
-      "Suggestions become 'pending' approval-queue items; only an explicit Approve changes any job state, and even then a follow-up draft is never sent automatically, only marked ready.",
-      "A ready-to-import n8n workflow runs the same check daily and writes to the same pending queue — it has no email, messaging, or LinkedIn node anywhere in the file.",
-      "Interview prep reuses JobPilot AI's question generator directly rather than a second implementation that could drift.",
+    limitations: [
+      "The supported question set is intentionally narrower than arbitrary exploratory analysis.",
+      "Automatic type inference can require manual correction for unusual CSV formats.",
+      "No verified public live deployment is currently claimed.",
     ],
-    safetyNotes: [
-      "Three independent layers between 'a job needs attention' and 'anything actually changes' — each one only ever proposes until a human approves.",
-      "No send/message/LinkedIn capability exists anywhere in this codebase or the n8n workflow file — enforced by what's built, not just by instruction.",
-      "9 automated tests directly prove: adding a suggestion never changes state, rejecting never changes state, only explicit approval does, and re-approving is a no-op.",
+    links: [
+      {
+        label: "View GitHub repository",
+        href: "https://github.com/Meettala/llm-business-insight-assistant",
+        external: true,
+      },
     ],
-    links: [{ label: "Try the approval gate, live", href: "/demo/agentic-tracker" }],
   },
 ];
 
 export const getProject = (slug: string) =>
-  projects.find((p) => p.slug === slug);
+  projects.find((project) => project.slug === slug);
