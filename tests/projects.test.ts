@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { projects } from "@/lib/projects";
+import { projects } from "../src/lib/projects";
 
 describe("portfolio project data", () => {
   it("contains five uniquely ordered projects with unique slugs", () => {
