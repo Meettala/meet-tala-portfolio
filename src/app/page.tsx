@@ -3,35 +3,45 @@ import { projects } from "@/lib/projects";
 import StatusTag from "@/components/StatusTag";
 
 export default function Home() {
+  const flagship = projects[0];
+
   return (
     <div>
       <section className="border-b border-ink-line">
         <div className="mx-auto max-w-5xl px-6 py-20 sm:py-28">
           <div className="mb-6 font-mono text-xs uppercase tracking-widest text-signal-amber">
-            applied AI portfolio
+            applied AI / ML engineering portfolio
           </div>
-          <h1 className="max-w-3xl font-display text-4xl font-bold leading-[1.1] tracking-tight text-paper sm:text-5xl">
-            I build AI systems that refuse to guess when they don&apos;t know.
+          <h1 className="max-w-4xl font-display text-4xl font-bold leading-[1.1] tracking-tight text-paper sm:text-5xl">
+            Applied AI/ML engineer building evidence-grounded, testable systems instead of uncontrolled model output.
           </h1>
-          <p className="mt-6 max-w-2xl text-base leading-relaxed text-paper-dim">
-            Five repository-ready projects spanning applied AI, machine learning,
-            retrieval, evidence-grounded job tooling and validated business analysis.
-            Each case study shows the engineering decisions, safety boundaries, tests
-            and honest limitations behind the work.
+          <p className="mt-6 max-w-3xl text-base leading-relaxed text-paper-dim">
+            The strongest work combines deterministic fallbacks, validated structured outputs,
+            retrieval with refusal behaviour, end-to-end machine learning, data pipelines,
+            automated testing, CI and Docker. Each case study separates what is implemented,
+            what is verified and what remains a limitation.
           </p>
           <div className="mt-10 flex flex-wrap items-center gap-4">
             <Link
-              href="#projects"
+              href={`/projects/${flagship.slug}`}
               className="rounded-sm bg-signal-amber px-5 py-2.5 font-mono text-xs font-medium uppercase tracking-widest text-ink transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-paper focus-visible:ring-offset-4 focus-visible:ring-offset-ink"
             >
-              View the builds
+              Explore JobPilot
             </Link>
             <Link
-              href="/now"
+              href="#projects"
               className="rounded-sm font-mono text-xs uppercase tracking-widest text-paper-dim underline decoration-ink-line underline-offset-4 hover:text-paper focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-amber focus-visible:ring-offset-4 focus-visible:ring-offset-ink"
             >
-              Review project status →
+              View all projects →
             </Link>
+            <a
+              href="https://github.com/Meettala"
+              target="_blank"
+              rel="noreferrer"
+              className="rounded-sm font-mono text-xs uppercase tracking-widest text-paper-dim underline decoration-ink-line underline-offset-4 hover:text-paper focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-amber focus-visible:ring-offset-4 focus-visible:ring-offset-ink"
+            >
+              GitHub evidence ↗
+            </a>
           </div>
         </div>
       </section>
@@ -46,7 +56,7 @@ export default function Home() {
               },
               {
                 n: projects.filter((project) => project.liveDemoAvailable).length,
-                label: "Public demos claimed",
+                label: "Fresh demos verified",
               },
               { n: projects.length, label: "Case studies" },
             ] as const
@@ -63,7 +73,13 @@ export default function Home() {
 
       <section id="projects" className="mx-auto max-w-5xl scroll-mt-8 px-6 py-20">
         <div className="mb-10 flex items-baseline justify-between gap-4">
-          <h2 className="font-display text-xl font-bold text-paper">The builds</h2>
+          <div>
+            <h2 className="font-display text-xl font-bold text-paper">Selected engineering work</h2>
+            <p className="mt-2 max-w-2xl text-sm leading-relaxed text-paper-dim">
+              Ordered for recruiter review: product and evidence boundaries first, then retrieval,
+              data-pipeline and foundational ML engineering.
+            </p>
+          </div>
           <span className="font-mono text-xs text-paper-dim">
             {projects.length} verified repositories
           </span>
@@ -88,8 +104,16 @@ export default function Home() {
                 <p className="mt-2 text-sm leading-relaxed text-paper-dim">
                   {project.oneLiner}
                 </p>
+                <ul className="mt-4 space-y-2 text-sm leading-relaxed text-paper-dim">
+                  {project.highlights.slice(0, 2).map((highlight) => (
+                    <li key={highlight} className="flex gap-2">
+                      <span aria-hidden="true">—</span>
+                      <span>{highlight}</span>
+                    </li>
+                  ))}
+                </ul>
                 <p className="mt-4 font-mono text-[0.65rem] uppercase tracking-wide text-paper-dim/80">
-                  Public demo: {project.liveDemoAvailable ? "verified" : "not claimed"}
+                  Public demo: {project.liveDemoAvailable ? "freshly verified" : "not claimed"}
                 </p>
               </div>
               <div className="flex flex-wrap gap-x-3 gap-y-2" aria-label="Technology stack">
@@ -109,14 +133,13 @@ export default function Home() {
 
       <section className="border-t border-ink-line bg-ink-raised">
         <div className="mx-auto max-w-5xl px-6 py-16">
-          <p className="max-w-2xl font-display text-2xl font-bold leading-snug text-paper">
-            No unsupported claims. No hidden limitations. No automated action without
-            an explicit boundary.
+          <p className="max-w-3xl font-display text-2xl font-bold leading-snug text-paper">
+            Engineering judgement is visible in the boundaries: unsupported claims are blocked,
+            provider output is validated, low-evidence retrieval refuses, and model results are scoped to their evaluation.
           </p>
           <p className="mt-4 max-w-2xl text-sm leading-relaxed text-paper-dim">
-            The portfolio applies one consistent rule: a claim must be supported by
-            code, tests, repository history or clearly labelled evidence. Anything not
-            verified is presented as a limitation or future step.
+            Repository readiness, public deployment and production readiness are treated as separate claims.
+            No LinkedIn or email contact is surfaced because no verified professional contact URL is currently present in the repository.
           </p>
         </div>
       </section>
