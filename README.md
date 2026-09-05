@@ -1,28 +1,37 @@
-# Meet Tala — Applied AI & Data Science Portfolio
+# Meet Tala — Applied AI/ML Engineering Portfolio
 
-A recruiter-facing Next.js portfolio for five public, repository-ready AI and data science projects. Each case study presents the problem, implementation approach, safety boundaries, linked source code and honest limitations.
+A recruiter-facing Next.js portfolio for five public, repository-ready AI, ML and data projects. The portfolio emphasises evidence-grounded assistants, deterministic fallbacks, validated structured outputs, retrieval with refusal behaviour, end-to-end ML, testing, CI and Docker.
 
-**Repository-ready is not the same as publicly deployed.** The site deliberately avoids live-demo claims until a verified URL and tested deployment exist.
+**Repository-ready, publicly deployed and production-ready are separate claims.** This repository only marks a project demo as live after a fresh smoke test verifies that the current public URL loads and the core interaction works.
 
-## Featured repositories
+## Recruiter-first project order
 
-| # | Project | Repository status | Public demo |
+| # | Project | Repository status | Fresh public demo |
 |---|---|---|---|
-| 1 | AI Job Market Skill Analyzer | Ready | Not claimed |
-| 2 | ML Prediction App | Ready | Not claimed |
+| 1 | JobPilot AI | Ready | Not claimed |
+| 2 | LLM Business Insight Assistant | Ready | Not claimed |
 | 3 | RAG Research Assistant | Ready | Not claimed |
-| 4 | JobPilot AI | Ready | Not claimed |
-| 5 | LLM Business Insight Assistant | Ready | Not claimed |
+| 4 | AI Job Market Skill Analyzer | Ready | Not claimed |
+| 5 | ML Prediction App | Ready | Not claimed |
 
 The propose-only application tracker is presented inside JobPilot AI because it is implemented in the same repository rather than as a sixth standalone project.
 
-## Portfolio principles
+## What the portfolio demonstrates
 
-- Claims must be supported by linked code, tests, CI or clearly labelled documentation.
-- Repository readiness and deployment status remain separate fields.
-- Every case study includes safety rules and limitations.
-- No private CVs, API keys, analytics secrets or production credentials belong in this repository.
-- The public site does not claim users, conversion rates, performance benchmarks or employment outcomes without evidence.
+- Evidence-grounded LLM workflows that block or disclose unsupported claims.
+- Deterministic no-key paths and safe fallbacks after provider failure.
+- Strict structured-output validation and allow-listed execution boundaries.
+- RAG retrieval with citation validation and explicit low-evidence refusal.
+- Reproducible data pipelines, baseline-vs-model ML evaluation and validated inference.
+- Automated tests, CI, dependency scanning and non-root Docker packaging.
+
+Each project page also states an important limitation so recruiter-facing claims stay scoped to what the repositories actually demonstrate.
+
+## Contact and application path
+
+The verified public contact path currently available in this repository is the GitHub profile: https://github.com/Meettala
+
+No LinkedIn or email CTA is shown because no verified professional contact URL is currently stored in the repository. Add one only after the owner provides and confirms it.
 
 ## Stack
 
@@ -56,7 +65,11 @@ This runs:
 - portfolio data-integrity tests,
 - the production Next.js build.
 
-GitHub Actions also scans `package-lock.json` with OSV Scanner.
+GitHub Actions performs the same application checks and also scans `package-lock.json` with OSV Scanner.
+
+## Deployment status
+
+GitHub repository metadata currently lists `https://meet-tala-portfolio.vercel.app` as the portfolio homepage. That metadata alone is not treated as a fresh deployment verification. Before sharing the portfolio for applications, smoke-test the homepage, flagship project route and all outbound project links in a browser.
 
 ## Docker
 
@@ -72,12 +85,12 @@ The runtime image uses Next.js standalone output and a non-root user.
 
 ## Source of truth
 
-`src/lib/projects.ts` is the single source of truth for project order, readiness, links, approach, safety notes and limitations. Tests prevent duplicate slugs, missing repository links and unverified live-demo claims.
+`src/lib/projects.ts` is the single source of truth for project order, readiness, recruiter-facing highlights, verification signals, links, approach, safety notes and limitations. Tests guard the recruiter-first order, repository URLs and live-demo consistency.
 
 ## Main routes
 
 - `/` — recruiter overview and project grid
-- `/projects/[slug]` — individual case studies
+- `/projects/[slug]` — individual case studies with engineering evidence
 - `/now` — repository-readiness and deployment-status explanation
 - `/sitemap.xml` and `/robots.txt` — environment-aware metadata routes
 
