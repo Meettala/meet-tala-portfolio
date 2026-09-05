@@ -38,7 +38,7 @@ export default async function ProjectPage({
         href="/#projects"
         className="font-mono text-xs uppercase tracking-widest text-paper-dim hover:text-signal-amber focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-signal-amber"
       >
-        ← All builds
+        ← All projects
       </Link>
 
       <div className="mt-6 flex flex-wrap items-center gap-3">
@@ -47,7 +47,7 @@ export default async function ProjectPage({
         </span>
         <StatusTag status={project.status} />
         <span className="font-mono text-xs text-paper-dim">
-          {project.liveDemoAvailable ? "Public demo verified" : "No public demo claimed"}
+          {project.liveDemoAvailable ? "Public demo freshly verified" : "No fresh public demo claimed"}
         </span>
       </div>
 
@@ -74,6 +74,33 @@ export default async function ProjectPage({
           Problem
         </h2>
         <p className="mt-3 leading-relaxed text-paper-dim">{project.problem}</p>
+      </section>
+
+      <section className="mt-10" aria-labelledby="highlights-heading">
+        <h2
+          id="highlights-heading"
+          className="font-display text-sm font-bold uppercase tracking-widest text-signal-amber"
+        >
+          Engineering highlights
+        </h2>
+        <ul className="mt-3 space-y-2">
+          {project.highlights.map((highlight) => (
+            <li key={highlight} className="flex gap-3 leading-relaxed text-paper-dim">
+              <span aria-hidden="true">—</span>
+              <span>{highlight}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="mt-10" aria-labelledby="verification-heading">
+        <h2
+          id="verification-heading"
+          className="font-display text-sm font-bold uppercase tracking-widest text-verified-sage"
+        >
+          Tests and evaluation signal
+        </h2>
+        <p className="mt-3 leading-relaxed text-paper-dim">{project.verificationSignal}</p>
       </section>
 
       <section className="mt-10" aria-labelledby="approach-heading">
@@ -117,7 +144,7 @@ export default async function ProjectPage({
           id="limitations-heading"
           className="font-display text-sm font-bold uppercase tracking-widest text-paper"
         >
-          Honest limitations
+          Important limitation
         </h2>
         <ul className="mt-3 space-y-2">
           {project.limitations.map((limitation) => (
