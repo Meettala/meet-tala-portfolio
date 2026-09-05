@@ -12,10 +12,14 @@ jobs:
   verify:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    permissions:
+      contents: write
 
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -23,10 +27,13 @@ jobs:
           node-version: "22"
           cache: npm
 
+      - name: Refresh vulnerable lockfile packages
+        run: npm update --package-lock-only brace-expansion browserslist js-yaml nanoid postcss
+
       - name: Install dependencies
         run: npm ci
 
-      - name: Explain vulnerable dependency chains
+      - name: Explain remediated dependency chains
         run: |
           npm explain nanoid
           npm explain js-yaml
@@ -45,6 +52,19 @@ jobs:
 
       - name: Build production application
         run: npm run build
+
+      - name: Commit refreshed lockfile
+        if: github.event_name == 'pull_request'
+        run: |
+          if git diff --quiet -- package-lock.json; then
+            echo "package-lock.json already current"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package-lock.json
+          git commit -m "JR01B: refresh vulnerable dependency lockfile"
+          git push origin HEAD:${GITHUB_HEAD_REF}
 
   dependency-scan:
     uses: google/osv-scanner-action/.github/workflows/osv-scanner-reusable.yml@v2.3.8
