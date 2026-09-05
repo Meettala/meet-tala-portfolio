@@ -26,6 +26,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Explain vulnerable dependency chains
+        run: |
+          npm explain nanoid
+          npm explain js-yaml
+          npm explain browserslist
+          npm explain postcss
+          npm explain brace-expansion
+
       - name: Type-check
         run: npm run typecheck
 
