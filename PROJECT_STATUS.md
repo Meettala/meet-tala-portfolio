@@ -16,7 +16,7 @@ Each project has a public GitHub repository plus documented engineering evidence
 
 ## Portfolio site status
 
-JR01 updates are being prepared on the `jr01/portfolio-foundation` branch rather than edited directly on `main`.
+JR01 work is tracked through pull request #2 from the `jr01/portfolio-foundation` branch.
 
 The foundation pass covers:
 
@@ -32,7 +32,7 @@ The foundation pass covers:
 
 PR #2 application verification is green: `npm ci`, TypeScript, zero-warning ESLint, 5 Vitest tests and the Next.js production build all passed on 5 September 2026.
 
-The current OSV dependency scan is **not green**. It reports 7 fixable known vulnerabilities across 6 packages in `package-lock.json` (0 critical, 6 high, 1 medium). Because JR01 requires a current security/dependency result, the portfolio must not be treated as fully job-ready until the lockfile is regenerated with compatible patched dependency versions and the scan passes. The scan was not weakened or filtered to hide these new findings.
+The JR01B dependency refresh also passes the repository's OSV security workflow. The previously reported 7 findings were remediated with compatible lockfile updates plus the existing PostCSS override raised from 8.5.18 to 8.5.23. The final scan reports no issues found; `fail-on-vuln` remains enabled and the scanner configuration was not broadened to hide the findings.
 
 ## Demo boundary
 
