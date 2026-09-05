@@ -28,6 +28,12 @@ The foundation pass covers:
 - adding the documented `npm run verify` command;
 - keeping live-demo claims conservative unless a fresh core-interaction smoke test succeeds.
 
+## Current verification status
+
+PR #2 application verification is green: `npm ci`, TypeScript, zero-warning ESLint, 5 Vitest tests and the Next.js production build all passed on 5 September 2026.
+
+The current OSV dependency scan is **not green**. It reports 7 fixable known vulnerabilities across 6 packages in `package-lock.json` (0 critical, 6 high, 1 medium). Because JR01 requires a current security/dependency result, the portfolio must not be treated as fully job-ready until the lockfile is regenerated with compatible patched dependency versions and the scan passes. The scan was not weakened or filtered to hide these new findings.
+
 ## Demo boundary
 
 Historical repository metadata or README deployment URLs are not enough to mark a demo as freshly verified. `liveDemoAvailable` remains `false` unless the current URL is opened and the core project interaction is successfully exercised during the review.
