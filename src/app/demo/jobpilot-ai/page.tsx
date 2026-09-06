@@ -88,9 +88,9 @@ export default function JobPilotDemo() {
         ← Back to case study
       </Link>
 
-      <h1 className="mt-6 font-display text-3xl font-bold text-paper">Try the evidence-grounding engine, live</h1>
+      <h1 className="mt-6 font-display text-3xl font-bold text-paper">Try the evidence-grounding engine in-browser</h1>
       <p className="mt-3 text-paper-dim leading-relaxed">
-        Runs entirely in your browser. Edit the CV or job description below and watch the match score,
+        This simplified portfolio demonstration runs entirely in your browser with synthetic sample text and no provider call. Edit the CV or job description below and watch the match score,
         the cover letter, and the blocked claims update — notice that a required skill with no evidence
         in the CV never makes it into the letter, it only ever shows up as a blocked claim.
       </p>

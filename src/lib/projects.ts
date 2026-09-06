@@ -55,7 +55,7 @@ export const projects: Project[] = [
       "Uses a propose-only tracker where actions require explicit approval, rejected actions never execute and replayed approvals are rejected.",
     ],
     verificationSignal:
-      "Vitest covers unsupported claims, malformed provider output, unknown evidence IDs, prompt-shaped CV text and approval failure paths; CI runs typecheck, lint, tests, production build and dependency scanning.",
+      "44 Vitest tests pass on the verified main commit; CI also runs typecheck, zero-warning lint, the production build and OSV scanning with no issues found.",
     approach: [
       "Convert CV statements into an evidence bank and match those items against extracted job requirements.",
       "Assemble the default cover letter deterministically from real evidence text and list unsupported requirements separately.",
@@ -65,14 +65,14 @@ export const projects: Project[] = [
     ],
     safetyNotes: [
       "Unsupported experience is reported rather than invented.",
-      "Provider-selected evidence must exist in the candidate evidence bank.",
+      "Provider mode requires an explicit ENABLE_PROVIDER_MODE=true flag plus a key; repository defaults are off, and the analysis UI shows a pre-submit beta privacy notice.",
       "Tracker suggestions have no side effects until a user explicitly approves them.",
       "Supabase and n8n files are documented design examples and are not presented as wired production services.",
     ],
     limitations: [
       "The public tracker uses in-memory state and resets when the server restarts.",
       "Taxonomy-based matching may miss unusual wording or specialised requirements.",
-      "The tool does not auto-apply, message recruiters or guarantee interviews or employment.",
+      "The tool does not auto-apply, message recruiters or guarantee interviews or employment; no current public JobPilot deployment is claimed.",
     ],
     links: [
       {
@@ -100,7 +100,7 @@ export const projects: Project[] = [
       "Returns grounded answers, chart-ready results and downloadable audits while keeping CSV cell content inert.",
     ],
     verificationSignal:
-      "A 2 August 2026 live validation passed 49 of 49 approved benchmark questions, after 85 focused local tests; that result is scoped to the approved benchmark rather than universal CSV accuracy.",
+      "109 tests pass across Python 3.10–3.12 with Ruff, dependency auditing and a non-root Docker smoke; the historical 49/49 approved benchmark remains scoped evidence, not universal CSV accuracy.",
     approach: [
       "Inspect uploaded CSV columns and types without executing cell contents.",
       "Resolve questions to a fixed QuerySpec containing a whitelisted aggregation or trend operation and real column names.",
@@ -145,7 +145,7 @@ export const projects: Project[] = [
       "Restricts optional provider output to a strict schema and retrieved citation allow-list, with safe extractive fallback on failure.",
     ],
     verificationSignal:
-      "Tests cover chunking, retrieval relevance, low-confidence refusal, prompt-injection inputs, strict provider output, citation allow-listing and safe provider fallback; CI also audits dependencies.",
+      "68 tests plus a 57-case synthetic evaluation report 94.6% Hit@1, 73.0% answer accuracy and 79.0% overall accuracy, with 10.0% false answers and 24.3% over-refusal; CI also runs build, OSV and non-root Docker checks.",
     approach: [
       "Chunk documents and build an explainable local TF-IDF retrieval index without requiring an API key.",
       "Return cited extractive answers by default and refuse when retrieval confidence is too low.",
@@ -161,7 +161,7 @@ export const projects: Project[] = [
     ],
     limitations: [
       "TF-IDF retrieval is lexical and may miss semantically related wording.",
-      "The assistant is not a substitute for reviewing the original document.",
+      "The 57-case evaluation still contains known answer/refusal failures inside its committed threshold envelope; the assistant is not a substitute for reviewing the original document.",
       "No public live deployment is claimed until a verified URL and genuine demo are added.",
     ],
     links: [
@@ -177,24 +177,24 @@ export const projects: Project[] = [
     order: 4,
     title: "AI Job Market Skill Analyzer",
     oneLiner:
-      "A reproducible Python and Streamlit pipeline for extracting, ranking and comparing AI/ML skills from permitted job-posting data.",
+      "A reproducible Python/SQLite analytics pipeline for extracting and aggregating skills from a defined synthetic or permitted posting dataset.",
     status: "verified",
     repositoryReady: true,
     liveDemoAvailable: false,
     stack: ["Python", "pandas", "SQLite", "Streamlit", "pytest"],
     problem:
-      "Career advice often relies on anecdote. This project demonstrates a transparent way to measure skill frequency, co-occurrence and candidate gaps from a clearly defined dataset.",
+      "Skill-analysis claims can become misleading when a small sample is presented as the labour market. This project keeps frequency, co-occurrence and entered-skill comparisons scoped to a clearly defined dataset.",
     highlights: [
       "Uses deterministic taxonomy matching as the no-key default, with a strictly validated optional provider-assisted extraction path.",
       "Stores posting and skill records with parameterised SQLite, foreign keys and duplicate protection.",
-      "Calculates demand frequency, skill co-occurrence and candidate-gap reports with deterministic pandas and SQL logic.",
+      "Uses the true posting-count denominator for skill frequency, dataset-scoped co-occurrence and a literal entered-skill comparison without treating absence as a personal deficiency.",
     ],
     verificationSignal:
-      "Tests cover empty and malformed inputs, duplicate skills, provider failures and report calculations; CI runs across Python 3.10–3.12 with Ruff and dependency auditing.",
+      "55 tests pass across Python 3.10–3.12, including a 9-case deterministic extraction regression set; CI also runs pip check, Ruff, pip-audit and a non-root Streamlit Docker smoke.",
     approach: [
-      "Load synthetic or explicitly permitted job postings; the public repository does not scrape restricted platforms.",
-      "Use deterministic taxonomy matching as the no-key default, with an optional strictly validated provider-assisted extraction path.",
-      "Store posting and skill records in SQLite, then calculate frequency, co-occurrence and candidate-gap reports with pandas.",
+      "Load the 40 deterministic synthetic postings or other explicitly permitted data; the public repository does not scrape restricted platforms.",
+      "Use the curated AI/ML taxonomy as the deterministic default; ESCO is a verified broad reference/lookup artefact rather than the active all-domain extractor.",
+      "Store posting and skill records with parameterised SQLite and duplicate protection, then calculate sample frequency, co-occurrence and entered-skill comparison outputs.",
       "Expose the analysis through a Streamlit dashboard and exportable report files.",
       "Verify repeat runs, malformed inputs, provider failures and report calculations through Python 3.10–3.12 CI.",
     ],
@@ -206,7 +206,7 @@ export const projects: Project[] = [
     ],
     limitations: [
       "Taxonomy matching cannot cover every new role title, synonym or specialist skill.",
-      "Results depend on the representativeness and freshness of the supplied dataset.",
+      "The committed 40-posting sample is synthetic and non-representative; the project does not provide real-time or population-wide labour-market coverage.",
       "The repository is ready for local use; no public live deployment is currently claimed.",
     ],
     links: [
@@ -230,28 +230,28 @@ export const projects: Project[] = [
     problem:
       "A notebook alone does not demonstrate production-minded ML engineering. This project covers data preparation, model comparison, artefact validation, API inference and user-facing delivery.",
     highlights: [
-      "Compares a transparent Linear Regression baseline with a Random Forest on a fixed held-out split using RMSE, MAE and R².",
+      "Compares fixed Linear Regression and Random Forest candidates on validation RMSE, then refits the selected Random Forest and evaluates it once on an untouched final test set.",
       "Persists a versioned model bundle with canonical feature order and rejects missing, corrupt or incompatible artefacts.",
       "Validates API and UI inputs before inference and exposes the model through FastAPI, Streamlit and a non-root Docker image.",
     ],
     verificationSignal:
-      "Held-out evaluation records both baseline and selected-model metrics; tests cover reproducible splits, model-bundle validation, feature order, invalid requests and safe failure behaviour.",
+      "36 tests pass across Python 3.10–3.12; real-data CI regenerates committed metrics byte-for-byte, while pip check, Ruff, pip-audit, artifact compatibility and non-root Docker/API smoke gates also pass.",
     approach: [
-      "Prepare a public aggregate housing dataset with reproducible train/test handling.",
-      "Train and compare a transparent baseline with a stronger tree-based model using RMSE, MAE and R².",
+      "Clean 20,640 historical California Housing rows to 20,597 and split deterministically into 12,357 train, 4,120 validation and 4,120 final-test rows.",
+      "Select Random Forest on validation RMSE (0.5356 vs 0.6877), refit it on train + validation, then report final-test RMSE 0.4771, MAE 0.3202 and R² 0.8290.",
       "Persist model metadata and reject incompatible or malformed artefacts at load time.",
       "Validate request ranges before prediction and return safe user-facing errors.",
       "Run tests, Ruff and dependency auditing across Python 3.10–3.12 in CI.",
     ],
     safetyNotes: [
       "Predictions are explicitly illustrative and are not financial, investment or housing advice.",
-      "Evaluation reports include the baseline and selected model instead of hiding weaker results.",
+      "The final test does not select the model; R² 0.8290 means variance explained on this historical split, not 82.9% prediction accuracy.",
       "The dataset is aggregate and does not contain personal applicant records.",
       "Inference inputs are bounded and validated before reaching the model.",
     ],
     limitations: [
-      "Historical aggregate data cannot represent every present-day local housing condition.",
-      "Model quality is limited by the original feature set and sampling assumptions.",
+      "The target is a historical 1990 median block-group value, not a current individual-property valuation.",
+      "Final evidence comes from one deterministic held-out split; it does not establish temporal or population-wide generalisation.",
       "The repository is deployment-ready, but this portfolio does not claim a currently public demo URL.",
     ],
     links: [

@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { projects } from "../src/lib/projects";
 
@@ -53,4 +54,28 @@ describe("portfolio project data", () => {
       expect(project.approach.length).toBeGreaterThanOrEqual(4);
     }
   });
+
+  it("keeps Skill Analyzer recruiter copy dataset-scoped", () => {
+    const project = projects.find((item) => item.slug === "job-market-skill-analyzer");
+    const publicCopy = JSON.stringify(project);
+    expect(publicCopy).not.toMatch(/market demand|high-demand|candidate[- ]gap|demand frequency/i);
+    expect(publicCopy).toMatch(/synthetic|sample|analysed|dataset/i);
+
+    const demo = readFileSync("src/app/demo/job-market-analyzer/page.tsx", "utf8");
+    expect(demo).not.toMatch(/Most in-demand|Missing \(high demand\)|Coverage of high-demand/i);
+    expect(demo).toMatch(/Most frequent skills in this sample/);
+  });
+
+  it("keeps ML model selection separate from final-test evidence", () => {
+    const project = projects.find((item) => item.slug === "ml-prediction-app");
+    const publicCopy = JSON.stringify(project);
+    expect(publicCopy).toMatch(/validation RMSE/i);
+    expect(publicCopy).toMatch(/final test|final-test/i);
+    expect(publicCopy).toMatch(/not 82\.9% prediction accuracy/i);
+
+    const demo = readFileSync("src/app/demo/ml-prediction/page.tsx", "utf8");
+    expect(demo).not.toMatch(/reported accuracy/i);
+    expect(demo).toMatch(/untouched final test/i);
+  });
+
 });

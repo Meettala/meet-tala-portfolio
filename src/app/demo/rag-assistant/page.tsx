@@ -8,7 +8,7 @@ import Link from "next/link";
  * from the rag-research-assistant repo (chunk.ts + retrieval.ts +
  * answer.ts's extractive branch) so this demo runs entirely in the
  * browser with no server call — same reasoning as the ML Prediction
- * demo: genuinely live, clearly labeled as the simplified path. The
+ * demo: interactive in-browser and clearly labeled as the simplified path, not as hosted-deployment evidence. The
  * repo's LLM-generative mode isn't reproduced here since it needs a
  * server-side API key.
  */
@@ -101,7 +101,7 @@ export default function RagDemo() {
         ← Back to case study
       </Link>
 
-      <h1 className="mt-6 font-display text-3xl font-bold text-paper">Try the extractive mode, live</h1>
+      <h1 className="mt-6 font-display text-3xl font-bold text-paper">Try the simplified extractive mode in-browser</h1>
       <p className="mt-3 text-paper-dim leading-relaxed">
         This runs entirely in your browser — TF-IDF retrieval, zero API key, zero server call.
         It only ever quotes the source text back to you, never generates. The repo also has an{" "}
