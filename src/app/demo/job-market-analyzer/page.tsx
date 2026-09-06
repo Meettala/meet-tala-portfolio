@@ -26,18 +26,17 @@ export default function JobMarketDemoPage() {
       </Link>
 
       <h1 className="mt-6 font-display text-3xl font-bold text-paper">
-        Live analysis output
+        Deterministic sample analysis
       </h1>
       <p className="mt-3 text-paper-dim leading-relaxed">
         Precomputed by the Python pipeline against{" "}
         <strong className="text-paper">{analysis.postings_analyzed} synthetic sample postings</strong>{" "}
-        ({analysis.generated_from}). Run it yourself with real data via the
-        Streamlit app in the repo.
+        ({analysis.generated_from}). The figures below describe only this non-representative sample; the repository supports other explicitly permitted datasets.
       </p>
 
       <section className="mt-12">
         <h2 className="font-display text-sm font-bold uppercase tracking-widest text-signal-amber">
-          Most in-demand skills
+          Most frequent skills in this sample
         </h2>
         <div className="mt-4 space-y-2">
           {freq.slice(0, 12).map((row) => (
@@ -61,7 +60,7 @@ export default function JobMarketDemoPage() {
 
       <section className="mt-12">
         <h2 className="font-display text-sm font-bold uppercase tracking-widest text-signal-amber">
-          Skills that appear together most often
+          Recurring skill pairs in this sample
         </h2>
         <div className="mt-4 divide-y divide-ink-line border-y border-ink-line">
           {cooc.slice(0, 8).map((row) => (
@@ -77,10 +76,10 @@ export default function JobMarketDemoPage() {
 
       <section className="mt-12">
         <h2 className="font-display text-sm font-bold uppercase tracking-widest text-verified-sage">
-          Sample gap report
+          Entered-skill comparison
         </h2>
         <p className="mt-2 text-xs text-paper-dim">
-          Against an example skill set: {(analysis.candidate_skills_used as string[]).join(", ")}
+          Literal comparison against an example entered-skill list: {(analysis.candidate_skills_used as string[]).join(", ")}
         </p>
         <div className="mt-4 grid gap-6 sm:grid-cols-2">
           <div>
@@ -92,7 +91,7 @@ export default function JobMarketDemoPage() {
             </ul>
           </div>
           <div>
-            <p className="tag tag-blocked mb-2">Missing (high demand)</p>
+            <p className="tag tag-blocked mb-2">Recurring sample terms not entered</p>
             <ul className="space-y-1 text-sm text-paper-dim">
               {gap.missing_skills.map((s) => (
                 <li key={s.skill}>{s.skill} <span className="text-paper-dim/50">— {s.pct_of_postings}%</span></li>
@@ -101,8 +100,9 @@ export default function JobMarketDemoPage() {
           </div>
         </div>
         <p className="mt-6 font-mono text-xs text-paper-dim">
-          Coverage of high-demand skills: {gap.match_rate_pct}%
+          Coverage of recurring sample skills: {gap.match_rate_pct}%
         </p>
+        <p className="mt-4 text-xs leading-relaxed text-paper-dim">Absence from this entered list does not prove a person lacks a skill. These percentages describe only the 40 synthetic postings; they are not market-demand, ATS or hiring scores.</p>
       </section>
     </div>
   );

@@ -6,7 +6,7 @@ import Link from "next/link";
 /*
  * Client-side port of the QuerySpec + rule-based parser + executor from
  * the llm-business-insight repo, over a small embedded sample dataset.
- * Same reasoning as the other live demos on this site: genuinely
+ * This is an embedded portfolio interaction rather than evidence of the source repository's hosted deployment. It is genuinely
  * interactive, no server needed. The safety property (fixed whitelisted
  * operations, no eval of anything derived from the question) is
  * preserved exactly.
@@ -126,7 +126,7 @@ export default function BusinessInsightDemo() {
         ← Back to case study
       </Link>
 
-      <h1 className="mt-6 font-display text-3xl font-bold text-paper">Ask the sample sales data, live</h1>
+      <h1 className="mt-6 font-display text-3xl font-bold text-paper">Ask the sample sales data in-browser</h1>
       <p className="mt-3 text-paper-dim leading-relaxed">
         Runs entirely in your browser over a small embedded sample dataset (30 rows). Every answer only
         ever comes from a fixed set of whitelisted operations — sum, average, count, min, max, optionally

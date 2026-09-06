@@ -15,8 +15,8 @@ A reviewer should be able to understand the portfolio in three minutes:
 For applied AI or AI engineering roles:
 
 1. JobPilot AI
-2. RAG Research Assistant
-3. LLM Business Insight Assistant
+2. LLM Business Insight Assistant
+3. RAG Research Assistant
 4. AI Job Market Skill Analyzer
 5. ML Prediction App
 
@@ -28,7 +28,8 @@ For data science or machine-learning roles, lead with the ML Prediction App and 
 - Test the homepage, every case-study route, `/now`, sitemap and robots output.
 - Test on a phone-sized viewport and with keyboard-only navigation.
 - Verify all five GitHub links.
-- Capture one real screenshot of the deployed homepage.
+- Capture current product evidence in priority order: JobPilot, LLM Business Insight, then RAG. A local/current-build screenshot is acceptable when presented as a product screenshot rather than deployment proof.
+- Use synthetic/public-safe inputs only; exclude CV data, API keys, filesystem paths and private tabs.
 - Do not add demo buttons until those demo URLs are publicly accessible and tested.
 
 ## CV bullet

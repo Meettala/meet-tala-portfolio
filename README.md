@@ -22,7 +22,7 @@ The propose-only application tracker is presented inside JobPilot AI because it 
 - Deterministic no-key paths and safe fallbacks after provider failure.
 - Strict structured-output validation and allow-listed execution boundaries.
 - RAG retrieval with citation validation and explicit low-evidence refusal.
-- Reproducible data pipelines, baseline-vs-model ML evaluation and validated inference.
+- Reproducible data pipelines, validation-based model selection with untouched final-test evaluation, and validated inference.
 - Automated tests, CI, dependency scanning and non-root Docker packaging.
 
 Each project page also states an important limitation so recruiter-facing claims stay scoped to what the repositories actually demonstrate.
@@ -66,6 +66,10 @@ This runs:
 - the production Next.js build.
 
 GitHub Actions performs the same application checks and also scans `package-lock.json` with OSV Scanner.
+
+## Final technical synchronisation
+
+JR06A revalidated the five source repositories on 6 September 2026. Repository readiness is current; deployment freshness remains a separate condition and no source-project public demo is claimed without a fresh core-interaction smoke.
 
 ## Deployment status
 
